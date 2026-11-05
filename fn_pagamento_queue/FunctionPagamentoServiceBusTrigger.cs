@@ -24,7 +24,7 @@ public class FunctionPagamentoServiceBusTrigger
 
     [Function(nameof(FunctionPagamentoServiceBusTrigger))]
     public async Task Run(
-        [ServiceBusTrigger("fila-pagamento", Connection = "")]
+        [ServiceBusTrigger("fila-pagamento", Connection = "AzureServiceBusConnectionString")]
         ServiceBusReceivedMessage message,
         ServiceBusMessageActions messageActions)
     {

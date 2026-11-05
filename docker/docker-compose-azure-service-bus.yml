@@ -27,7 +27,7 @@ services:
       - "5300:5300"
     volumes:
       # Certifique-se de que este arquivo existe na pasta do seu projeto se for utilizá-lo
-      - ./docker/config.json:/ServiceBus_Emulator/ConfigFiles/Config.json
+      - ./config.json:/ServiceBus_Emulator/ConfigFiles/Config.json
     depends_on:
       - sqlserver
     networks:
