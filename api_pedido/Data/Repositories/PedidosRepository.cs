@@ -1,0 +1,61 @@
+﻿using Dapper;
+using api_pedido.Data.Dapper;
+using api_pedido.Model.Request;
+using api_pedido.Model.Response;
+using System.Data;
+using System.Text;
+
+namespace api_pedido.Data.Repositories
+{
+    public class PedidosRepository : IPedidosRepository
+    {
+        private DapperContext _dapper;
+        public PedidosRepository(DapperContext dapper) => _dapper = dapper ?? throw new ArgumentException("Dapper inválido.", nameof(dapper));
+
+        public async Task AtualizarStatusPedido(PedidosStatusPedidoRequest pedido)
+        {
+            StringBuilder query = new();
+            query.Append(" update Pedidos set StatusPedido = @StatusPedido where Id = @Id;");
+            using var _ctx = _dapper.DapperConnection();
+            await _ctx.ExecuteAsync(
+                query.ToString(),
+                pedido
+                );
+        }
+
+        public async Task<PedidosCompletoResponse> CriarPedido(PedidosRequest pedido)
+        {
+            StringBuilder query = new();
+            query.Append(" insert into Pedidos");
+            query.Append(" (IdCliente, NomeCliente, CartaoCliente, IdProduto, NomeProduto, StatusPedido)");
+            query.Append(" output inserted.Id, inserted.DataCadastro, inserted.StatusCadastro, inserted.IdCliente, inserted.NomeCliente, inserted.CartaoCliente, inserted.IdProduto, inserted.NomeProduto, inserted.StatusPedido");
+            query.Append(" values");
+            query.Append(" (@IdCliente, @NomeCliente, @CartaoCliente, @IdProduto, @NomeProduto, @StatusPedido);");
+            using var _ctx = _dapper.DapperConnection();
+            var pedidoResponse = await _ctx.QuerySingleAsync<PedidosCompletoResponse>(
+                query.ToString(),
+                new
+                {
+                    pedido.IdCliente,
+                    pedido.NomeCliente,
+                    pedido.CartaoCliente,
+                    pedido.IdProduto,
+                    pedido.NomeProduto,
+                    StatusPedido = "PEDIDO_PROCESSADO"
+                });
+            return pedidoResponse;
+        }
+
+        public async Task<List<PedidosResponse>> PegarTodosPedidos()
+        {
+            StringBuilder query = new();
+            query.Append("select Id, DataCadastro, NomeCliente, NomeProduto, StatusPedido from Pedidos order by DataCadastro desc;");
+            using var _ctx = _dapper.DapperConnection();
+            var pedidos = await _ctx.QueryAsync<PedidosResponse>(
+                query.ToString(),
+                commandType: CommandType.Text
+                );
+            return [.. pedidos];
+        }
+    }
+}
