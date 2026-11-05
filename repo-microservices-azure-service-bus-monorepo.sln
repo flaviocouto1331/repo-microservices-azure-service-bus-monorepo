@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{735E9890-00B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_cartao", "api_cartao\api_cartao.csproj", "{DAC615FC-AFD0-4F41-B6B9-DA06E66623B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_cliente", "api_cliente\api_cliente.csproj", "{214FABFB-7904-4C8F-BC24-79CF88140CF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DAC615FC-AFD0-4F41-B6B9-DA06E66623B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAC615FC-AFD0-4F41-B6B9-DA06E66623B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAC615FC-AFD0-4F41-B6B9-DA06E66623B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214FABFB-7904-4C8F-BC24-79CF88140CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214FABFB-7904-4C8F-BC24-79CF88140CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214FABFB-7904-4C8F-BC24-79CF88140CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214FABFB-7904-4C8F-BC24-79CF88140CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
