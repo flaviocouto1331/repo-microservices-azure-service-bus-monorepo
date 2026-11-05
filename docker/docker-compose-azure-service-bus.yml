@@ -122,7 +122,7 @@ services:
     depends_on:
       - service-bus-emulator      
       - api-cartao
-      - api-pedidos
+      - api-pedido
     networks:
       - network-30092026
       
