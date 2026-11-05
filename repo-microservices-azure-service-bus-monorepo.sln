@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_pedido", "api_pedido\ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_produto", "api_produto\api_produto.csproj", "{9930E8CD-BB9C-4D74-B68D-95573094B737}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fn_estoque_queue", "fn_estoque_queue\fn_estoque_queue.csproj", "{B268DB46-E3A0-4861-9EEC-25319172B5A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9930E8CD-BB9C-4D74-B68D-95573094B737}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9930E8CD-BB9C-4D74-B68D-95573094B737}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9930E8CD-BB9C-4D74-B68D-95573094B737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,143 @@
+using Azure.Messaging.ServiceBus;
+using fn_estoque_queue.Messaging;
+using fn_estoque_queue.Model.Request;
+using fn_estoque_queue.Model.Response;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
+using System.Text.Json;
+
+namespace fn_estoque_queue;
+
+public class FunctionEstoqueServiceBusTrigger
+{
+    private readonly ILogger<FunctionEstoqueServiceBusTrigger> _logger;
+    private readonly IConfiguration _configuracao;
+    private readonly HttpClient _http;
+    private readonly IServiceBus _serviceBus;
+
+    public FunctionEstoqueServiceBusTrigger(ILogger<FunctionEstoqueServiceBusTrigger> logger, IConfiguration configuracao, HttpClient http, IServiceBus serviceBus)
+    {
+        _logger = logger;
+        _configuracao = configuracao ?? throw new ArgumentNullException("Configuração inválida.", nameof(configuracao));
+        _http = http ?? throw new ArgumentNullException("Configuração inválida.", nameof(http));
+        _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus), "Configuracao Azure Service Bus inválida.");
+    }
+
+    [Function(nameof(FunctionEstoqueServiceBusTrigger))]
+    public async Task Run(
+        [ServiceBusTrigger("fila-estoque", Connection = "AzureServiceBusConnectionString")]
+        ServiceBusReceivedMessage message,
+        ServiceBusMessageActions messageActions)
+    {
+        _logger.LogInformation("Message ID: {id}", message.MessageId);
+        _logger.LogInformation("Message Body: {body}", message.Body);
+        _logger.LogInformation("Message Content-Type: {contentType}", message.ContentType);
+
+        _logger.LogInformation("Inciando azure service bus.");
+        _logger.LogInformation("Requisição mensageria fila-estoque recebida.");
+
+        try
+        {
+            #region pedido
+
+            var requisicao = JsonSerializer.Deserialize<PedidosFilaRequest>(message.Body.ToString());
+
+            if (requisicao is null) throw new ArgumentException("Function json inválido.", nameof(requisicao));
+
+            _logger.LogInformation("Pedido Id {Id} IdCliente {IdCliente} CartaoCliente {CartaoCliente} IdProduto {IdProduto}", requisicao.Id, requisicao.IdCliente, requisicao.CartaoCliente, requisicao.IdProduto);
+
+            #endregion
+
+            #region api produto
+
+            var produto = new VerificarQtdEstoqueRequest() { IdProduto = requisicao.IdProduto };
+
+            string produtoUrl = _configuracao["url_api_produto"] ?? throw new InvalidOperationException("Api url produto inválida");
+
+            using HttpResponseMessage produtoApi = await _http.PostAsJsonAsync(produtoUrl, produto);
+
+            string produtoApiCondicao;
+
+            if (produtoApi.IsSuccessStatusCode)
+            {
+                var produtoApiData = await produtoApi.Content.ReadFromJsonAsync<VerificarQtdEstoqueResponse>();
+
+                if (produtoApiData is null) throw new ArgumentException("Api json produto inválido.");
+
+                produtoApiCondicao = produtoApiData.CondicaoProduto ? "PEDIDO_AGUARDANDO_PAGAMENTO" : "PEDIDO_CANCELADO_FALTA_ESTOQUE";
+
+                _logger.LogInformation("Api produto {CondicaoProduto} {produtoApiCondicao}", produtoApiData.CondicaoProduto, produtoApiCondicao);
+            }
+            else
+            {
+                var produtoApiDataErro = await produtoApi.Content.ReadAsStringAsync();
+
+                _logger.LogError("Api produto inválido {produtoApiDataErro} {StatusCode}", produtoApiDataErro, (int)produtoApi.StatusCode);
+
+                throw new ArgumentException($"Api produto inválido {produtoApiDataErro} {(int)produtoApi.StatusCode}");
+            }
+
+            #endregion
+
+            #region api pedido
+
+            var pedido = new PedidosStatusPedidoRequest() { Id = requisicao.Id, StatusPedido = produtoApiCondicao };
+
+            string pedidoUrl = _configuracao["url_api_pedido"] ?? throw new InvalidOperationException("Api url pedido inválida.");
+
+            using HttpResponseMessage pedidoApi = await _http.PutAsJsonAsync(pedidoUrl, pedido);
+
+            if (pedidoApi.IsSuccessStatusCode)
+            {
+                var pedidoApiData = await pedidoApi.Content.ReadFromJsonAsync<PedidosStatusPedidoResponse>();
+
+                if (pedidoApiData is null) throw new ArgumentException("Api json pedido inválido.");
+
+                _logger.LogInformation("Api pedido {Id}", pedidoApiData.Id);
+            }
+            else
+            {
+                var pedidoApiDataDataErro = await pedidoApi.Content.ReadAsStringAsync();
+
+                _logger.LogError("Api pedido inválido {pedidoApiDataDataErro} {StatusCode}", pedidoApiDataDataErro, (int)pedidoApi.StatusCode);
+
+                throw new ArgumentException($"Api produto inválido {pedidoApiDataDataErro} {(int)pedidoApi.StatusCode}");
+            }
+
+            #endregion
+
+            #region fila-pagamento
+
+            _logger.LogInformation("Enviando pedido para fila-pagamento.");
+
+            if (produtoApiCondicao == "PEDIDO_AGUARDANDO_PAGAMENTO") await _serviceBus.EnviarMensagemFilaAzureServiceBus(requisicao, "fila-pagamento");
+
+            _logger.LogInformation("Mensagem enviada para fila-pagamento.");
+
+            #endregion
+
+            _logger.LogInformation("Requisição mensageria fila-estoque finalizada.");
+
+            await messageActions.CompleteMessageAsync(message);
+        }
+        catch (JsonException ex)
+        {
+            _logger.LogError(ex, "Mensagem {MessageId} contém JSON inválido.", message.MessageId);
+            await messageActions.DeadLetterMessageAsync(message, null, "JsonInvalido", "O corpo da mensagem não contém um JSON válido.");
+            return;
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex, "Mensagem {MessageId} não contém os dados esperados.", message.MessageId);
+            await messageActions.DeadLetterMessageAsync(message, null, "DadosObrigatoriosAusentes", ex.Message);
+            return;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Falha ao processar a mensagem {MessageId}.", message.MessageId);
+            throw;
+        }
+    }
+}
