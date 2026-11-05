@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_produto", "api_produto\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fn_estoque_queue", "fn_estoque_queue\fn_estoque_queue.csproj", "{B268DB46-E3A0-4861-9EEC-25319172B5A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fn_pagamento_queue", "fn_pagamento_queue\fn_pagamento_queue.csproj", "{ED39C3E9-A25C-499F-9AF4-2DFE613026E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B268DB46-E3A0-4861-9EEC-25319172B5A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED39C3E9-A25C-499F-9AF4-2DFE613026E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED39C3E9-A25C-499F-9AF4-2DFE613026E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED39C3E9-A25C-499F-9AF4-2DFE613026E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED39C3E9-A25C-499F-9AF4-2DFE613026E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

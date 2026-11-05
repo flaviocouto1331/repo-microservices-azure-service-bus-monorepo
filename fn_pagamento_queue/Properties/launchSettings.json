@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "fn_pagamento_queue": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7105",
+      "launchBrowser": false
+    }
+  }
+}
