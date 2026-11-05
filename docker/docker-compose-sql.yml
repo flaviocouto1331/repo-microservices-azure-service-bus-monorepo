@@ -2,23 +2,19 @@ services:
  
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: container-30092026-db
-
+    container_name: container-30092026-sql
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "SenhaForte123!"
-
     ports:
       - "1433:1433"
-
     volumes:
-      - volume-30092026:/var/opt/mssql
-
+      - volume-30092026-sql:/var/opt/mssql
     networks:
       - network-30092026      
   
 volumes:
-  volume-30092026:
+  volume-30092026-sql:
     driver: local
 
 networks:

@@ -1,12 +1,12 @@
-loja_cliente_db**************************************************
+db_cliente---------------------------------------------------------------------------------------------------------------
 
 use master
 
-CREATE DATABASE loja_cliente_db
+CREATE DATABASE db_cliente
 COLLATE Latin1_General_CI_AI;
 GO
 
-use loja_cliente_db
+use db_cliente
 
 create table Cliente(
 	Id uniqueidentifier not null primary key default newid(),
@@ -21,15 +21,15 @@ select * from Cliente
 
 
 
-loja_produtos_db**************************************************
+db_produto---------------------------------------------------------------------------------------------------------------
 
 use master
 
-CREATE DATABASE loja_produtos_db
+CREATE DATABASE db_produto
 COLLATE Latin1_General_CI_AI;
 GO
 
-use loja_produtos_db
+use db_produto
 
 create table Produtos (
 	Id uniqueidentifier not null primary key default newid(),
@@ -46,7 +46,7 @@ select * from Produtos
 
 
 
-db_cartao**************************************************
+db_cartao---------------------------------------------------------------------------------------------------------------
 
 use master
 
@@ -68,15 +68,15 @@ select * from ConsultaCartao
 
 
 
-loja_pedidos_db**************************************************
+db_pedido---------------------------------------------------------------------------------------------------------------
 
 use master
 
-CREATE DATABASE loja_pedidos_db
+CREATE DATABASE db_pedido
 COLLATE Latin1_General_CI_AI;
 GO
 
-use loja_pedidos_db
+use db_pedido
 
 create table Pedidos(
 	Id uniqueidentifier not null primary key default newid(),
@@ -93,6 +93,6 @@ create table Pedidos(
 insert into Pedidos 
 (IdCliente, NomeCliente, CartaoCliente, IdProduto, NomeProduto, StatusPedido)
 values
-('0EE7C73A-6517-41FD-A7A1-5731B99E8E1B', 'Ellon Musk', 'CARD-77F67444-AE6D-48A5-B22D-C6582CACCF96', '2CF55B94-4B2B-4074-AE5D-2951EBA6178B', 'Playstation 5', 'PEDIDO_AGUARDANDO_ENVIO')
+('[IdCliente]', 'Ellon Musk', 'CARD-77F67444-AE6D-48A5-B22D-C6582CACCF96', '[IdProduto]', 'Playstation 5', 'PEDIDO_AGUARDANDO_ENVIO')
 
 select * from Pedidos
