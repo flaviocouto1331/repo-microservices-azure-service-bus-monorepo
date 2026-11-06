@@ -23,12 +23,12 @@ Conforme a solução `repo-microservices-azure-service-bus-monorepo`:
 
 ## 3. Tutorial
 
-Passo 1: Clonar o projeto para sua máquina local.
-Passo 2: Executar o docker compose referente na pasta do projeto /docker/docker-compose-azure-service-bus.yml.
-Passo 3: Utilizando uma ferramenta de gerenciamento e visualização de banco de dados, executar o script da pasta do projeto /sql/scripts.sql.
-Passo 4: No navegador utilize a seguinte URL do Swagger:
+* **Passo 1:** Clonar o projeto para sua máquina local.
+* **Passo 2:** Executar o docker compose referente na pasta do projeto /docker/docker-compose-azure-service-bus.yml.
+* **Passo 3:** Utilizando uma ferramenta de gerenciamento e visualização de banco de dados, executar o script da pasta do projeto /sql/scripts.sql.
+* **Passo 4:** No navegador utilize a seguinte URL do Swagger:
 http://localhost:1003/swagger/index.html
-Passo 6: Siga o procedimento abaixo.
+* **Passo 5:** Siga o procedimento abaixo.
 
 ### Procedimento de Teste
 
@@ -48,6 +48,7 @@ Payload de Requisição:
 
 Um pedido será criado com StatusPedido > PEDIDO_PROCESSADO
 
-O mesmo será enviado para fila do Azure Service Bus
-  fila-estoque   PEDIDO_CANCELADO_FALTA_ESTOQUE ou PEDIDO_AGUARDANDO_PAGAMENTO envia para próxima fila
-  fila-pagamento PEDIDO_CANCELADO_CARTAO_RECUSADO ou PEDIDO_AGUARDANDO_ENVIO 
+O mesmo será enviado para fila do Azure Service Bus:
+
+  1- fila-estoque   PEDIDO_CANCELADO_FALTA_ESTOQUE ou PEDIDO_AGUARDANDO_PAGAMENTO envia para próxima fila.
+  2- fila-pagamento PEDIDO_CANCELADO_CARTAO_RECUSADO ou PEDIDO_AGUARDANDO_ENVIO.
