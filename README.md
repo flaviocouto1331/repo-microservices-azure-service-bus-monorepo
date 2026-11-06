@@ -48,7 +48,7 @@ Payload de Requisição:
 
 Um pedido será criado com StatusPedido > PEDIDO_PROCESSADO
 
-O mesmo será enviado para fila do Azure Service Bus:
+**O mesmo será enviado para fila do Azure Service Bus:**
 
-  **1- fila-estoque**  PEDIDO_CANCELADO_FALTA_ESTOQUE ou PEDIDO_AGUARDANDO_PAGAMENTO envia para próxima fila.
-  **2- fila-pagamento** PEDIDO_CANCELADO_CARTAO_RECUSADO ou PEDIDO_AGUARDANDO_ENVIO.
+  **`1- fila-estoque`**  PEDIDO_CANCELADO_FALTA_ESTOQUE ou PEDIDO_AGUARDANDO_PAGAMENTO envia para próxima fila.
+  **`2- fila-pagamento`** PEDIDO_CANCELADO_CARTAO_RECUSADO ou PEDIDO_AGUARDANDO_ENVIO.
