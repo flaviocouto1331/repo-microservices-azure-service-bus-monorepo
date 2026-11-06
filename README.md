@@ -28,3 +28,22 @@ Passo 3: Utilizando uma ferramenta de gerenciamento e visualização de banco de
 Passo 4: No navegador utilize a seguinte URL do Swagger:
 http://localhost:1003/swagger/index.html
 Passo 6: Siga o procedimento abaixo.
+
+Procedimento de Teste
+Execute o endpoint POST /api/pedidos
+
+Payload de Requisição:
+
+{
+  "idCliente": "[idCliente]",
+  "nomeCliente": "Flávio Couto",
+  "cartaoCliente": "CARD-29550C89-7587-4177-AB4C-0128F2830CA9",
+  "idProduto": "[idProduto]",
+  "nomeProduto": "Nintendo Switch 2"
+}
+
+Um pedido será criado com StatusPedido > PEDIDO_PROCESSADO
+
+O mesmo será enviado para fila do Azure Service Bus
+  fila-estoque   PEDIDO_CANCELADO_FALTA_ESTOQUE ou PEDIDO_AGUARDANDO_PAGAMENTO envia para próxima fila
+  fila-pagamento PEDIDO_CANCELADO_CARTAO_RECUSADO ou PEDIDO_AGUARDANDO_ENVIO 
