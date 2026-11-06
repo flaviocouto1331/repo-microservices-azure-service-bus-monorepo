@@ -1,12 +1,12 @@
 # 🚀 Microservices Azure Service Bus Monorepo
 
-1. Microservices Azure Service Bus
+## 1. Microservices Azure Service Bus
 
 Sistema de processamento de pedidos orientado a eventos (EDA) estruturado em **Monorepo** .NET, utilizando **Azure Service Bus** para mensageria, **Azure Functions** para processamento assíncrono de filas e APIs RESTful.
 
 ---
 
-2. Estrutura da Solução
+## 2. Estrutura da Solução
 
 Conforme a solução `repo-microservices-azure-service-bus-monorepo`:
 
@@ -19,8 +19,9 @@ Conforme a solução `repo-microservices-azure-service-bus-monorepo`:
 ├── 🌐 api_produto           # API de controle de produtos e catálogo
 ├── ⚡ fn_estoque_queue      # Azure Function (Service Bus Trigger): Checagem e reserva de estoque
 └── ⚡ fn_pagamento_queue    # Azure Function (Service Bus Trigger): Processamento de pagamento
+```
 
-3. Tutorial
+## 3. Tutorial
 
 Passo 1: Clonar o projeto para sua máquina local.
 Passo 2: Executar o docker compose referente na pasta do projeto /docker/docker-compose-azure-service-bus.yml.
@@ -29,11 +30,13 @@ Passo 4: No navegador utilize a seguinte URL do Swagger:
 http://localhost:1003/swagger/index.html
 Passo 6: Siga o procedimento abaixo.
 
-Procedimento de Teste
+### Procedimento de Teste
+
 Execute o endpoint POST /api/pedidos
 
 Payload de Requisição:
 
+```json
 {
   "idCliente": "[idCliente]",
   "nomeCliente": "Flávio Couto",
@@ -41,6 +44,7 @@ Payload de Requisição:
   "idProduto": "[idProduto]",
   "nomeProduto": "Nintendo Switch 2"
 }
+```
 
 Um pedido será criado com StatusPedido > PEDIDO_PROCESSADO
 
