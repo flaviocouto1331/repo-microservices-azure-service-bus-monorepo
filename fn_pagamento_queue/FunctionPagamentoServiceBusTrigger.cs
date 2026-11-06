@@ -35,6 +35,9 @@ public class FunctionPagamentoServiceBusTrigger
         _logger.LogInformation("Inciando azure service bus.");
         _logger.LogInformation("Requisição mensageria fila-pagamento recebida.");
 
+        // TODO - simular atraso de 2 minutos para teste de deadletter
+        Task.Delay(120000).Wait();
+
         try
         {
             #region pedido
