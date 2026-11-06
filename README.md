@@ -1,4 +1,4 @@
-# 🚀 Microservices Azure Service Bus Monorepo
+# 🚀 repo-microservices-azure-service-bus-monorepo
 
 ## 1. Microservices Azure Service Bus
 
